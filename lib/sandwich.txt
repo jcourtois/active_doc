@@ -1,0 +1,13 @@
+---heading
+How do I make a caprese sandwich?
+---if-error:
+This feature may not work correctly for the moment.
+---intro:
+Sandwiches are delicious.  We're here to show you how to make one.
+---steps:
+Prepare two slices of bread.
+Slice up the tomato and mozzarella.
+Tear up some fresh basil.
+Combine the ingredients between the two slices of bread.
+---closing:
+Enjoy your delicious sandwich!

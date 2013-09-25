@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'Qat/version'
+require 'ActiveDoc/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "Qat"
-  spec.version       = Qat::VERSION
+  spec.name          = "ActiveDoc"
+  spec.version       = ActiveDoc::VERSION
   spec.authors       = ["James Courtois"]
   spec.email         = ["jcourtois@thoughtworks.com"]
   spec.description   = %q{TODO: Write a gem description}
