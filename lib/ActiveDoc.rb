@@ -2,23 +2,26 @@
 require_relative 'DocReader'
 require_relative 'DocBuilder'
 
+
 class ActiveDoc
   def generate
     documentation = pull_copytext_from_source 'sandwich.txt'
-    invariants = pull_formatting_from_source 'js.txt'
+    invariants = pull_formatting_from_source 'formatting.txt'
     builder = DocBuilder.new
 
     documentation[:steps].each{|step| builder.addStep step, 'hello.png' }
-    builder.generate documentation, with:invariants
-  end
 
+    html_text = builder.generate documentation, with:invariants
+    puts html_text
+    #File.open('output.html','w'){|f| f.write(html_text)}
+  end
 
   def pull_copytext_from_source filename
     DocReader.new.parse_copytext filename
   end
 
   def pull_formatting_from_source filename
-    {css:'hello.css', js:'<script src="lala"></script>'}
+    DocReader.new.parse_formatting filename
   end
 end
 

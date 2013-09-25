@@ -1,7 +1,9 @@
 class DocBuilder
   require 'markaby'
+  require_relative 'patches/Markaby'
 
   def initialize
+    Markaby::Builder.set(:tagset, Markaby::HTML5)
     @mab = Markaby::Builder.new
     @list_elements = Array.new
   end
@@ -11,19 +13,21 @@ class DocBuilder
   end
 
   def generate documentation={}, doc_invariant={}
-    my_var = @list_elements
-    step_list = lambda {ol{my_var.each{|element| instance_exec &element}}}
+    steps = @list_elements
     @mab.html{
+      tag! :article, {}
       head{
         title{documentation[:title]} if documentation[:title]
-        link href:doc_invariant[:with][:css] if doc_invariant[:with][:css]
-        text doc_invariant[:with][:js] if doc_invariant[:with][:js]
+        link href:doc_invariant[:with][:css] if doc_invariant[:with] && doc_invariant[:with][:css]
+        text doc_invariant[:with][:js] if doc_invariant[:with] && doc_invariant[:with][:js]
       }
       body{
-        text doc_invariant[:with][:header] if doc_invariant[:with][:header]
-        h1{documentation[:heading]} if documentation[:heading]
-        div.error{} if documentation[:if_error]
-        instance_exec &step_list
+        text doc_invariant[:with][:header] if doc_invariant[:with] && doc_invariant[:with][:header]
+        tag!(:article, class: 'manual col-sm-9 pull-right'){
+          h1{documentation[:heading]} if documentation[:heading]
+          div.error{} if documentation[:if_error]
+          ol{steps.each{|element| instance_exec &element}}
+        }
       }
     }
     @mab.to_s

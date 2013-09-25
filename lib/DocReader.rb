@@ -34,13 +34,12 @@ class DocReader
           when /---js/
             js += next_line.chomp until reached?(/---header/)
           when /---header/
-            header += next_line.chomp
+            header += next_line.chomp until reached?(/---end/)
         end
       end
     ensure
       return {css:css, js:js, header:header}
     end
-
   end
 
   def next_line_contains_more_than_whitespace?
