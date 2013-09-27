@@ -32,7 +32,7 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-left pages">
-                <li class="timeline" lt-activate-navigation="timeline"><a href="/timeline"><span class="icon icon-clock"></span></a></li>
+                <li class="timeline" lt-activate-navigation="timeline"><a href="/timeline"><span class="icon icon-clock"></span>Apples</a></li>
                 <li class="showcase active" lt-activate-navigation="showcase"><a href="/showcases"><span class="icon icon-th-large"></span> Bananas</a></li>
                 <li class="groups" lt-activate-navigation="groups" lt-accessible-for="faculty"><a href="#"><span class="icon icon-users"></span> Oranges</a></li>
             </ul>

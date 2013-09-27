@@ -4,13 +4,17 @@ module DSL
 
   def where_we_have(*module_names)
     puts module_names
-    on_page_with(module_names.at(0)){|page| @page=page; yield page}
+    on_page_with(*module_names){|page| @page=page; yield page}
   end
 
-  def step step_number, action_name, optional_args={}
+  define_method :step do |step_number, action_name, optional_args={}|
     example.metadata[:doc_steps].store step_number, action_name
     args = optional_args[:with] || {}
-    args[:img] = optional_args.fetch(:img) if optional_args.has_key?(:img)
+
+    if optional_args.has_key?(:img)
+      example.metadata[:doc_pics].store step_number, optional_args[:img]
+      args[:img] = optional_args[:img]
+    end
     @page.perform action_name, args
   end
 

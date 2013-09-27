@@ -12,20 +12,20 @@ class DocBuilder
     @list_elements.push lambda {li step_text; div.image {img src:img_name}}
   end
 
-  def full_html_generate documentation={}, doc_invariant={}
+  def full_html_generate doc={}, doc_formatting={}
     steps = @list_elements
     @mab.html{
       tag! :article, {}
       head{
-        title{documentation[:title]} if documentation[:title]
-        link href:doc_invariant[:with][:css] if doc_invariant[:with] && doc_invariant[:with][:css]
-        text doc_invariant[:with][:js] if doc_invariant[:with] && doc_invariant[:with][:js]
+        title{doc[:title]} if doc[:title]
+        link href:doc_formatting[:css] if doc_formatting[:css]
+        text doc_formatting[:js] if doc_formatting[:js]
       }
       body{
-        text doc_invariant[:with][:header] if doc_invariant[:with] && doc_invariant[:with][:header]
+        text doc_formatting[:header] if doc_formatting[:header]
         tag!(:article, class: 'manual col-sm-9 pull-right'){
-          h1{documentation[:heading]} if documentation[:heading]
-          div.error{} if documentation[:if_error]
+          h1{doc[:heading]} if doc[:heading]
+          div.error{} if doc[:if_error]
           ol{steps.each{|element| instance_exec &element}}
         }
       }
