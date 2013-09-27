@@ -1,6 +1,6 @@
 # active_doc
 
-TODO: active_doc is a gem that uses Capybara/RSpec tests as source material to generate user documentation.  The gem generates customer-facing html documentation with steps that correspond to steps within your tests.  If you want, you can also have ActiveDoc take screenshots at points within your steps.  ActiveDoc will place these screenshot images under the step where it was taken.  ActiveDoc can also flag documents whose source RSpec tests are not currently passing to indicate that the documented feature may currently be having problems.
+active_doc is a gem that uses Capybara/RSpec tests as source material to generate user documentation.  The gem generates customer-facing html documentation with steps that correspond to steps within your tests.  If you want, you can also have ActiveDoc take screenshots at points within your steps.  ActiveDoc will place these screenshot images under the step where it was taken.  ActiveDoc can also flag documents whose source RSpec tests are not currently passing to indicate that the documented feature may currently be having problems.
 
 ## Installation
 
