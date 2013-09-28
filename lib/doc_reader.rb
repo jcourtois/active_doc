@@ -1,10 +1,13 @@
 class DocReader
 
+  #token parser: (alternative to case) identify tokens and then delegate to them
+
   def parse_copytext filename
     title = ''; heading  = ''; if_error = ''; intro = ''; steps = []
     begin
       @enum = File.open(filename).each
       while @enum.peek
+        #TokenParser.from(next_line).parse(next_line)
         case next_line
           when /---title/
             title += next_line.chomp until reached?(/---heading/)

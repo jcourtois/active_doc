@@ -2,7 +2,6 @@
 require_relative 'doc_reader'
 require_relative 'doc_builder'
 
-
 class ActiveDoc
   def generate example, with={}
     #TODO:store the goal information in the metadata / generate the copytext file automatically
@@ -10,8 +9,9 @@ class ActiveDoc
     formatting = pull_formatting_from_source with[:formatting]
     builder = DocBuilder.new
     example.metadata[:doc_steps].each do |step_no, step_name|
+      #sort the steps?  steps could be out of order
       step_screenshot = example.metadata[:doc_pics][step_no]
-      builder.addStep step_name.to_s, step_screenshot
+      builder.add_step step_name.to_s, step_screenshot
     end
 #documentation[:steps].each{|step| builder.addStep step, example.metadata[:doc_pics] }
 

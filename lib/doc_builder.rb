@@ -8,14 +8,13 @@ class DocBuilder
     @list_elements = Array.new
   end
 
-  def addStep step_text, img_name
-    @list_elements.push lambda {li step_text; div.image {img src:img_name}}
+  def add_step step_text, img_name=nil
+    @list_elements.push lambda {li step_text; div.image {img src:img_name} if img_name}
   end
 
   def full_html_generate doc={}, doc_formatting={}
     steps = @list_elements
     @mab.html{
-      tag! :article, {}
       head{
         title{doc[:title]} if doc[:title]
         link href:doc_formatting[:css] if doc_formatting[:css]
