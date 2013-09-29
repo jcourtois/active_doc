@@ -11,6 +11,7 @@ module DSL
     perform_step_for example, step_number, action_name, optional_args
   end
 
+  #is there a gizmo dependency??
   def perform_step_for example, step_number, action_name, arguments
     example.metadata[:doc_steps].store step_number, action_name
     args = optional_args[:with] || {}
