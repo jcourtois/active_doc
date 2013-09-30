@@ -4,6 +4,7 @@ class DocBuilder
 
   def initialize
     Markaby::Builder.set(:tagset, Markaby::HTML5)
+    Markaby::Builder.set(:indent, 2)
     @mab = Markaby::Builder.new
     @list_elements = Array.new
   end
@@ -33,5 +34,6 @@ class DocBuilder
   end
 
   def hook_html_generate documentation={}, doc_invariant={}
+
   end
 end
