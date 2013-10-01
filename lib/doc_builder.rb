@@ -33,7 +33,4 @@ class DocBuilder
     @mab.to_s
   end
 
-  def hook_html_generate documentation={}, doc_invariant={}
-
-  end
 end
