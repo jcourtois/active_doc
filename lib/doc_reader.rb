@@ -1,9 +1,11 @@
+require 'pry'
+
 class DocReader
 
   #token parser: (alternative to case) identify tokens and then delegate to them
 
   def parse_copytext filename
-    title = ''; heading  = ''; if_error = ''; intro = ''; steps = []
+    title = ''; heading  = ''; if_error = ''; intro = ''; steps = {}
     begin
       @enum = File.open(filename).each
       while @enum.peek
@@ -18,11 +20,11 @@ class DocReader
           when /---intro/
             intro += next_line.chomp until reached?(/---steps/)
           when /---steps/
-            next_line_contains_more_than_whitespace? ? steps << next_line.chomp : next_line until reached?(/---closing/)
+            steps.merge! parse_step || {} until reached?(/---closing/)
         end
       end
     ensure
-      return {title:title, heading:heading, if_error:if_error, intro:intro, steps:steps}
+      return {title:title, heading:heading, if_error:if_error, intro:intro, example_steps:steps}
     end
   end
 
@@ -33,11 +35,11 @@ class DocReader
       while @enum.peek
         case next_line
           when /---css/
-            css += next_line.chomp until reached?(/---js/)
+            css += next_line until reached?(/---js/)
           when /---js/
-            js += next_line.chomp until reached?(/---header/)
+            js += next_line until reached?(/---header/)
           when /---header/
-            header += next_line.chomp until reached?(/---end/)
+            header += next_line until reached?(/---end/)
         end
       end
     ensure
@@ -45,12 +47,16 @@ class DocReader
     end
   end
 
-  def next_line_contains_more_than_whitespace?
-    @enum.peek =~ /[^ \t\r\n\f]/
+  def parse_step
+    {peek_next_line.scan(/\d+/).first.to_i => next_line.sub(/\d+\. /,"")}
   end
 
   def next_line
     @enum.next
+  end
+
+  def peek_next_line
+    @enum.peek
   end
 
   def reached?(reg_ex)

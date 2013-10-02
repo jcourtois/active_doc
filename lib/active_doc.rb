@@ -1,30 +1,50 @@
 #require "active_doc/version"
 require_relative 'doc_reader'
 require_relative 'doc_builder'
+require_relative 'file_manager'
+require_relative 'copytext_builder'
 require 'pry'
 
 class ActiveDoc
-  def generate example, with={}
-    documentation = pull_copytext_from_source Rails.root.join("active_documentation/documentation/" + example.metadata[:directory] + "/" + example.metadata[:copy])
-    formatting = pull_formatting_from_source Rails.root.join("active_documentation/formatting/" + with[:formatting])
-    builder = DocBuilder.new
-    example.metadata[:doc_steps].each do |step_no, step_name|
-      #sort the steps?  steps could be out of order
-
-      step_screenshot = Rails.root.join("active_documentation/documentation/"+example.metadata[:directory]+"/"+example.metadata[:doc_pics][step_no])
-      builder.add_step step_name.to_s, step_screenshot
-    end
-#documentation[:steps].each{|step| builder.addStep step, example.metadata[:doc_pics] }
-
-    html_text = builder.full_html_generate documentation, formatting
-    File.open(Rails.root.join("active_documentation/documentation/" + example.metadata[:doc]),'w'){|f| f.write(html_text)}
+  def initialize example
+    @file_manager = BuilderFileManager.new example
+    @example_steps = example.metadata[:doc_steps]
   end
 
-  def pull_copytext_from_source filename
-    DocReader.new.parse_copytext filename
+  def generate_documentation
+    print_warning_to_terminal_and_generate_file_with_copytext unless file_with.copytext_already_exists?
+
+    copytext[:steps].each{|step_number, step_text| builder.add_step(step_text, file_with.image_for(step_number))}
+    File.open(file_with.html,'w'){|f| f.write(html_text)}
   end
 
-  def pull_formatting_from_source filename
-    DocReader.new.parse_formatting filename
+  def print_warning_to_terminal_and_generate_file_with_copytext
+    puts "Hey, we don't have a copytext file.  We'll make a default one for you, lazy."
+    CopytextBuilder.new(file_with.copytext_source).generate_default_copytext_with @example_steps
+  end
+
+  private
+  def html_text
+    builder.full_html_generate copytext, formatting
+  end
+
+  def copytext
+    reader.parse_copytext(file_with.copytext_source)
+  end
+
+  def formatting
+    reader.parse_formatting(file_with.formatting_source)
+  end
+
+  def file_with
+    @file_manager
+  end
+
+  def builder
+    @builder||=DocBuilder.new
+  end
+
+  def reader
+    @reader||=DocReader.new
   end
 end

@@ -1,0 +1,10 @@
+---title
+Please add a title to your page.
+---heading
+Please add a heading here.
+---if-error
+This feature may not work correctly for the moment.
+We are trying hard to fix it.
+---intro
+Please add intro text here.
+---steps
