@@ -8,6 +8,10 @@ class BuilderFileManager
     Rails.root.join "active_documentation/documentation/"<<@documentation_directory<<"/"<<@documentation_directory<<"_copytext.txt"
   end
 
+  def copytext_root
+    Rails.root.join "active_documentation/documentation/"<<@documentation_directory
+  end
+
   def formatting_source
     Rails.root.join "active_documentation/formatting/formatting.txt"
   end
@@ -22,5 +26,9 @@ class BuilderFileManager
 
   def copytext_already_exists?
     File.exists? copytext_source
+  end
+
+  def copytext_root_already_exists?
+    Dir.exists? copytext_root
   end
 end
